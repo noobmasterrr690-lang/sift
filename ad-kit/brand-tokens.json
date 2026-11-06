@@ -1,0 +1,59 @@
+{
+  "brand": "Sift",
+  "tagline": "Precision File Organizer",
+  "palette": {
+    "background": {
+      "bgDeep":   { "hex": "#090a12", "use": "Video base / edges" },
+      "bgMid":    { "hex": "#111322", "use": "Mid background" },
+      "bgGlow":   { "hex": "#1e2238", "use": "Top-center radial glow" },
+      "surface":  { "hex": "#18181d", "use": "Cards, file chips, panels" },
+      "surface2": { "hex": "#202027", "use": "Raised elements" }
+    },
+    "brandSpectrum": {
+      "cyan":   { "hex": "#22d3ee", "use": "Logo tier 1 – incoming files" },
+      "blue":   { "hex": "#3b82f6", "use": "Logo tier 1 end" },
+      "indigo": { "hex": "#4f46e5", "use": "Logo tier 2 – sifting channel" },
+      "violet": { "hex": "#7c3aed", "use": "Logo tier 2 middle" },
+      "purple": { "hex": "#a855f7", "use": "Logo tier 2/3 joint" },
+      "rose":   { "hex": "#fb7185", "use": "Logo tier 3 – organized output" }
+    },
+    "ui": {
+      "accent":      { "hex": "#6d6af5", "use": "Primary button / CTA" },
+      "accentLight": { "hex": "#818cf8", "use": "Sub-labels, glow, highlights" },
+      "green":       { "hex": "#34d399", "use": "Space freed / success" },
+      "red":         { "hex": "#e5484d", "use": "Clean Up button" }
+    },
+    "text": {
+      "primary":   { "hex": "#f2f2f4" },
+      "secondary": { "hex": "#a8a8b3" },
+      "muted":     { "hex": "#75757f" }
+    },
+    "categories": {
+      "Images":     "#22d3ee",
+      "Documents":  "#3b82f6",
+      "Design":     "#a855f7",
+      "Videos":     "#fb7185",
+      "Archives":   "#818cf8",
+      "Installers": "#34d399"
+    }
+  },
+  "gradients": {
+    "brand":   ["#22d3ee", "#3b82f6", "#4f46e5", "#7c3aed", "#a855f7", "#fb7185"],
+    "tagline": ["#38bdf8", "#818cf8", "#ec4899"],
+    "background": "radial #1e2238 (top-center) -> #111322 -> #090a12"
+  },
+  "typography": {
+    "display": "Segoe UI Variable Display (fallback: Inter)",
+    "body": "Segoe UI Variable Text (fallback: Inter)",
+    "headline": { "weight": 800, "tracking": "-0.03em", "sizeAt1080p": "96-110px" },
+    "tagline":  { "weight": 700, "tracking": "0.28em", "case": "UPPERCASE", "sizeAt1080p": "28-32px", "fill": "tagline gradient" },
+    "label":    { "weight": 600, "sizeAt1080p": "26-30px" }
+  },
+  "motion": {
+    "easeOut":  "cubic-bezier(0.2, 0.8, 0.2, 1)",
+    "easeSnap": "cubic-bezier(0.34, 1.56, 0.64, 1)",
+    "easeIn":   "cubic-bezier(0.6, 0, 0.8, 0.2)"
+  },
+  "video": { "duration": "10s", "resolution": "1920x1080", "fps": 30 }
+}
+

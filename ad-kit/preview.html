@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Sift — 10s Ad Preview</title>
+<link rel="stylesheet" href="brand-tokens.css" />
+<style>
+  html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
+  body { font-family: var(--sift-font-display); }
+
+  #stage {
+    position: absolute; left: 50%; top: 50%;
+    width: 1920px; height: 1080px;
+    transform-origin: center;
+    overflow: hidden;
+    background: var(--sift-grad-bg);
+    color: var(--sift-text);
+    cursor: pointer;
+  }
+
+  /* ---------- Ambient auras ---------- */
+  .aura { position: absolute; border-radius: 50%; filter: blur(150px); opacity: .32; will-change: transform; }
+  .aura.a1 { width: 700px; height: 700px; background: var(--sift-cyan);   left: -150px; top: -200px; }
+  .aura.a2 { width: 800px; height: 800px; background: var(--sift-violet); right: -250px; top: 150px; }
+  .aura.a3 { width: 650px; height: 650px; background: var(--sift-rose);   left: 500px; bottom: -420px; opacity: .22; }
+
+  /* ---------- Headlines ---------- */
+  .headline {
+    position: absolute; left: 0; right: 0; top: 120px;
+    text-align: center;
+    font-size: 104px; font-weight: var(--sift-headline-weight);
+    letter-spacing: var(--sift-headline-tracking);
+    line-height: 1.05;
+    opacity: 0;
+  }
+  .grad { background: var(--sift-grad-brand); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .mess { color: var(--sift-rose); }
+
+  /* ---------- Scene 1: file chips ---------- */
+  .chip-pos { position: absolute; transform: translate(-50%, -50%); }
+  .chip {
+    display: flex; align-items: center; gap: 18px;
+    padding: 14px 26px 14px 14px;
+    border-radius: 20px;
+    background: rgba(24, 24, 29, .92);
+    border: 1px solid var(--sift-hairline-strong);
+    box-shadow: var(--sift-shadow);
+    font-family: var(--sift-font-text);
+    font-size: 26px; font-weight: 600; white-space: nowrap;
+    opacity: 0;
+  }
+  .ext {
+    width: 64px; height: 64px; border-radius: 16px;
+    display: grid; place-items: center;
+    font-size: 17px; font-weight: 800; letter-spacing: .02em;
+    color: #0b0c14;
+  }
+
+  /* ---------- Scene 2: logo ---------- */
+  .logo-hero {
+    position: absolute; left: 960px; top: 620px;
+    width: 380px; height: 380px; margin: -190px 0 0 -190px;
+    opacity: 0;
+    filter: drop-shadow(0 0 90px rgba(99, 102, 241, .55));
+  }
+
+  /* ---------- Scene 3: folders ---------- */
+  .folders {
+    position: absolute; left: 270px; top: 360px;
+    display: grid; grid-template-columns: repeat(3, 430px); gap: 40px;
+  }
+  .folder {
+    display: flex; align-items: center; gap: 26px;
+    height: 210px; padding: 0 34px; box-sizing: border-box;
+    border-radius: var(--sift-radius-card);
+    background: rgba(24, 24, 29, .88);
+    border: 1px solid var(--sift-hairline);
+    box-shadow: var(--sift-shadow);
+    opacity: 0;
+  }
+  .folder svg { width: 96px; height: 96px; flex-shrink: 0; }
+  .folder-name { font-size: 36px; font-weight: 700; letter-spacing: -.01em; }
+  .folder-path { font-family: var(--sift-font-mono); font-size: 20px; color: var(--sift-text-3); margin-top: 4px; }
+  .folder-count { font-size: 26px; font-weight: 600; color: var(--sift-text-2); margin-top: 10px; font-variant-numeric: tabular-nums; }
+
+  /* ---------- Scene 4: feature cards ---------- */
+  .features {
+    position: absolute; left: 192px; top: 380px;
+    display: grid; grid-template-columns: repeat(3, 480px); gap: 48px;
+  }
+  .feature {
+    height: 380px; padding: 44px; box-sizing: border-box;
+    border-radius: var(--sift-radius-card);
+    background: rgba(24, 24, 29, .9);
+    border: 1px solid var(--sift-hairline);
+    box-shadow: var(--sift-shadow);
+    display: flex; flex-direction: column; justify-content: flex-end;
+    position: relative; overflow: hidden;
+    opacity: 0;
+  }
+  .feature::before {
+    content: ""; position: absolute; inset: 0 0 auto 0; height: 6px;
+    background: var(--bar, var(--sift-grad-brand));
+  }
+  .feature-icon {
+    position: absolute; top: 44px; left: 44px;
+    width: 88px; height: 88px; border-radius: 24px;
+    display: grid; place-items: center;
+    background: var(--sift-surface-2);
+  }
+  .feature-icon svg { width: 48px; height: 48px; }
+  .feature-big { font-size: 64px; font-weight: 800; letter-spacing: -.03em; line-height: 1.05; }
+  .feature-sub { font-size: 26px; color: var(--sift-text-2); margin-top: 12px; line-height: 1.35; }
+  .green { color: var(--sift-green); text-shadow: 0 0 40px rgba(52, 211, 153, .45); }
+
+  /* ---------- Scene 5: end card ---------- */
+  .end {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+  .end > * { opacity: 0; }
+  .end-logo { width: 280px; height: 280px; filter: drop-shadow(0 0 90px rgba(99, 102, 241, .55)); }
+  .end-word { font-size: 190px; font-weight: 800; letter-spacing: -.045em; line-height: 1; margin-top: 18px; }
+  .end-tag {
+    font-size: 30px; font-weight: var(--sift-tagline-weight); letter-spacing: var(--sift-tagline-tracking);
+    background: var(--sift-grad-tagline); -webkit-background-clip: text; background-clip: text; color: transparent;
+    margin-top: 18px; padding-left: .28em;
+  }
+  .end-cta {
+    margin-top: 52px; padding: 24px 56px; border-radius: var(--sift-radius-pill);
+    background: var(--sift-accent); color: #fff;
+    font-size: 34px; font-weight: 700;
+    display: flex; align-items: center; gap: 18px;
+    box-shadow: 0 0 0 1px rgba(255,255,255,.12) inset, 0 18px 60px rgba(109, 106, 245, .55);
+  }
+  .end-cta svg { width: 34px; height: 34px; }
+</style>
+</head>
+<body>
+<div id="stage" title="Click to replay">
+  <div class="aura a1"></div>
+  <div class="aura a2"></div>
+  <div class="aura a3"></div>
+
+  <!-- Scene 1 -->
+  <div class="headline" id="h1">Your Downloads folder is a <span class="mess">mess.</span></div>
+  <div id="chips"></div>
+
+  <!-- Scene 2 -->
+  <div class="headline" id="h2">Meet <span class="grad">Sift.</span></div>
+  <img class="logo-hero" id="logo" src="assets/sift-logo.svg" alt="" />
+
+  <!-- Scene 3 -->
+  <div class="headline" id="h3">Every file, <span class="grad">sorted</span> in one click.</div>
+  <div class="folders" id="folders"></div>
+
+  <!-- Scene 4 -->
+  <div class="headline" id="h4">Safe. Undoable. <span class="grad">100% local.</span></div>
+  <div class="features" id="features">
+    <div class="feature" style="--bar: linear-gradient(90deg,#34d399,#22d3ee)">
+      <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="m9 14 2 2 4-4"/></svg></div>
+      <div class="feature-big"><span class="green num" id="gb">4.2 GB</span> freed</div>
+      <div class="feature-sub">Junk, duplicates &amp; old installers</div>
+    </div>
+    <div class="feature" style="--bar: linear-gradient(90deg,#4f46e5,#a855f7)">
+      <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg></div>
+      <div class="feature-big">1-Click Undo</div>
+      <div class="feature-sub">Every move is reversible</div>
+    </div>
+    <div class="feature" style="--bar: linear-gradient(90deg,#a855f7,#fb7185)">
+      <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fb7185" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+      <div class="feature-big">Stays local</div>
+      <div class="feature-sub">No cloud. No uploads.</div>
+    </div>
+  </div>
+
+  <!-- Scene 5 -->
+  <div class="end" id="end">
+    <img class="end-logo" src="assets/sift-logo.svg" alt="" />
+    <div class="end-word">Sift</div>
+    <div class="end-tag">PRECISION FILE ORGANIZER</div>
+    <div class="end-cta">
+      <svg viewBox="0 0 24 24" fill="#fff"><path d="M3 5.5 10.5 4.4v7.1H3zM11.5 4.3 21 3v8.5h-9.5zM3 12.5h7.5v7.1L3 18.5zM11.5 12.5H21V21l-9.5-1.3z"/></svg>
+      Download for Windows
+    </div>
+  </div>
+</div>
+
+<script>
+/* ---------------------------------------------------------------
+   Sift 10s ad — timeline driven by the Web Animations API.
+   URL params:  ?t=3.5   freeze at 3.5 s (for stills)
+                ?loop    loop forever
+   Click the stage or press R to replay.
+---------------------------------------------------------------- */
+const D = 10;                       // seconds
+const stage = document.getElementById('stage');
+const anims = [];
+const EASE  = 'cubic-bezier(.2,.8,.2,1)';
+const SNAP  = 'cubic-bezier(.34,1.56,.64,1)';
+const IN    = 'cubic-bezier(.6,0,.8,.2)';
+
+function fit() {
+  const s = Math.min(innerWidth / 1920, innerHeight / 1080);
+  stage.style.transform = `translate(-50%,-50%) scale(${s})`;
+}
+addEventListener('resize', fit); fit();
+
+/* One animation per element, keyframes placed on the absolute 10 s timeline.
+   frames: [timeSec, {opacity, transform, ...}, easingToNext?] */
+function tl(el, frames) {
+  const kf = frames.map(([t, p, e]) => ({ offset: t / D, ...p, easing: e || EASE }));
+  if (kf[0].offset > 0) kf.unshift({ ...kf[0], offset: 0 });
+  if (kf[kf.length - 1].offset < 1) kf.push({ ...kf[kf.length - 1], offset: 1 });
+  const a = el.animate(kf, { duration: D * 1000, fill: 'both' });
+  anims.push(a);
+  return a;
+}
+
+/* Simple headline in/out */
+function headline(el, tin, tout) {
+  tl(el, [
+    [tin,        { opacity: 0, transform: 'translateY(40px)' }],
+    [tin + .35,  { opacity: 1, transform: 'translateY(0)' }],
+    [tout - .25, { opacity: 1, transform: 'translateY(0)' }, IN],
+    [tout,       { opacity: 0, transform: 'translateY(-30px)' }],
+  ]);
+}
+
+/* Deterministic pseudo-random */
+let seed = 7;
+const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+
+/* ---------- Data ---------- */
+const CATS = {
+  img: { label: 'Images',     color: '#22d3ee', path: 'Images/2026/11', count: 412 },
+  doc: { label: 'Documents',  color: '#3b82f6', path: 'Documents/PDF',  count: 268 },
+  des: { label: 'Design',     color: '#a855f7', path: 'Design/PSD',     count: 97  },
+  vid: { label: 'Videos',     color: '#fb7185', path: 'Videos/2026',    count: 54  },
+  arc: { label: 'Archives',   color: '#818cf8', path: 'Archives',       count: 131 },
+  ins: { label: 'Installers', color: '#34d399', path: 'Installers',     count: 38  },
+};
+const FILES = [
+  ['IMG_4821.jpg','img'], ['invoice_final(3).pdf','doc'], ['setup_v2.3.exe','ins'],
+  ['poster_FINAL_v7.psd','des'], ['project.zip','arc'], ['clip_0012.mp4','vid'],
+  ['Screenshot (14).png','img'], ['notes.docx','doc'], ['logo.ai','des'],
+  ['assets(1).rar','arc'], ['Driver.msi','ins'], ['screen-rec.mov','vid'],
+  ['vacation_02.heic','img'], ['budget_2026.xlsx','doc'], ['mockup.fig','des'],
+  ['backup.7z','arc'], ['ubuntu.iso','ins'], ['Zoom(2).exe','ins'],
+];
+
+/* ---------- Ambient auras (whole 10 s) ---------- */
+tl(document.querySelector('.a1'), [[0,{transform:'translate(0,0)'}],[10,{transform:'translate(260px,120px)'}]], );
+tl(document.querySelector('.a2'), [[0,{transform:'translate(0,0)'}],[10,{transform:'translate(-220px,-80px)'}]]);
+tl(document.querySelector('.a3'), [[0,{transform:'translate(0,0) scale(1)'}],[10,{transform:'translate(200px,-60px) scale(1.25)'}]]);
+
+/* ---------- Scene 1: chips ---------- */
+const chipsEl = document.getElementById('chips');
+const COLS = 6, ROWS = 3, CENTER = { x: 960, y: 620 };
+FILES.forEach(([name, cat], i) => {
+  const col = i % COLS, row = Math.floor(i / COLS);
+  const cx = 250 + col * 284 + (rnd() - .5) * 60;
+  const cy = 420 + row * 200 + (rnd() - .5) * 70 + (col % 2) * 40;
+  const rot = (rnd() - .5) * 26;
+  const pos = document.createElement('div');
+  pos.className = 'chip-pos';
+  pos.style.left = cx + 'px'; pos.style.top = cy + 'px';
+  const c = CATS[cat];
+  const ext = name.split('.').pop().toUpperCase();
+  pos.innerHTML = `<div class="chip"><div class="ext" style="background:${c.color}">${ext}</div>${name}</div>`;
+  chipsEl.appendChild(pos);
+  const chip = pos.firstChild;
+
+  const tIn = .15 + i * .04;
+  const tFly = 2.15 + rnd() * .55;
+  const dx = CENTER.x - cx, dy = CENTER.y - cy;
+  const w1 = (rnd() - .5) * 6, w2 = (rnd() - .5) * 6;
+  tl(chip, [
+    [tIn,        { opacity: 0, transform: `translate(0,30px) rotate(${rot}deg) scale(.5)` }, SNAP],
+    [tIn + .35,  { opacity: 1, transform: `translate(0,0) rotate(${rot}deg) scale(1)` }],
+    [1.3,        { opacity: 1, transform: `translate(${w1}px,${w2}px) rotate(${rot + w1}deg) scale(1)` }],
+    [tFly,       { opacity: 1, transform: `translate(0,0) rotate(${rot}deg) scale(1)` }, IN],
+    [tFly + .6,  { opacity: 0, transform: `translate(${dx}px,${dy}px) rotate(${rot > 0 ? 200 : -200}deg) scale(.08)` }],
+  ]);
+});
+headline(document.getElementById('h1'), .05, 2.1);
+
+/* ---------- Scene 2: logo ---------- */
+headline(document.getElementById('h2'), 2.15, 4.0);
+tl(document.getElementById('logo'), [
+  [1.95, { opacity: 0, transform: 'scale(.3) rotate(-25deg)' }, SNAP],
+  [2.55, { opacity: 1, transform: 'scale(1) rotate(0deg)' }],
+  [3.2,  { opacity: 1, transform: 'scale(1) rotate(0deg)' }, SNAP],
+  [3.38, { opacity: 1, transform: 'scale(1.14) rotate(0deg)' }],
+  [3.6,  { opacity: 1, transform: 'scale(1) rotate(0deg)' }, IN],
+  [4.05, { opacity: 0, transform: 'scale(.6) rotate(10deg)' }],
+]);
+
+/* ---------- Scene 3: folders ---------- */
+headline(document.getElementById('h3'), 4.05, 6.5);
+const foldersEl = document.getElementById('folders');
+const counters = [];
+Object.values(CATS).forEach((c, i) => {
+  const el = document.createElement('div');
+  el.className = 'folder';
+  el.innerHTML = `
+    <svg viewBox="0 0 96 96"><path d="M8 24a8 8 0 0 1 8-8h22l8 10h34a8 8 0 0 1 8 8v38a8 8 0 0 1-8 8H16a8 8 0 0 1-8-8z" fill="${c.color}" opacity=".28"/>
+      <path d="M8 36a8 8 0 0 1 8-8h64a8 8 0 0 1 8 8v36a8 8 0 0 1-8 8H16a8 8 0 0 1-8-8z" fill="${c.color}"/></svg>
+    <div><div class="folder-name">${c.label}</div><div class="folder-path">${c.path}/</div>
+    <div class="folder-count"><span class="num">0</span> files</div></div>`;
+  foldersEl.appendChild(el);
+  counters.push({ el: el.querySelector('.num'), to: c.count, t0: 4.35 + i * .07, t1: 5.6 + i * .07 });
+  const t = 4.15 + i * .08;
+  tl(el, [
+    [t,       { opacity: 0, transform: 'translateY(70px) scale(.92)' }, SNAP],
+    [t + .45, { opacity: 1, transform: 'translateY(0) scale(1)' }],
+    [6.25,    { opacity: 1, transform: 'translateY(0) scale(1)' }, IN],
+    [6.55,    { opacity: 0, transform: 'translateY(-40px) scale(.96)' }],
+  ]);
+});
+
+/* ---------- Scene 4: features ---------- */
+headline(document.getElementById('h4'), 6.55, 8.5);
+document.querySelectorAll('.feature').forEach((el, i) => {
+  const t = 6.65 + i * .12;
+  tl(el, [
+    [t,       { opacity: 0, transform: 'translateY(80px)' }, SNAP],
+    [t + .5,  { opacity: 1, transform: 'translateY(0)' }],
+    [8.25,    { opacity: 1, transform: 'translateY(0)' }, IN],
+    [8.55,    { opacity: 0, transform: 'translateY(-40px)' }],
+  ]);
+});
+counters.push({ el: document.getElementById('gb'), to: 4.2, t0: 6.8, t1: 7.6, fmt: v => v.toFixed(1) + ' GB' });
+
+/* ---------- Scene 5: end card ---------- */
+const endKids = [...document.getElementById('end').children];
+endKids.forEach((el, i) => {
+  const t = 8.6 + i * .12;
+  const from = i === 0 ? 'scale(.5) rotate(-20deg)' : 'translateY(40px)';
+  const to   = i === 0 ? 'scale(1) rotate(0deg)'    : 'translateY(0)';
+  tl(el, [
+    [t,      { opacity: 0, transform: from }, SNAP],
+    [t + .5, { opacity: 1, transform: to }],
+  ]);
+});
+
+/* ---------- Counters (driven by master clock) ---------- */
+const master = anims[0];
+function updateCounters() {
+  const now = (master.currentTime || 0) / 1000;
+  counters.forEach(c => {
+    const p = Math.min(1, Math.max(0, (now - c.t0) / (c.t1 - c.t0)));
+    const e = 1 - Math.pow(1 - p, 3);
+    const v = c.to * e;
+    c.el.textContent = c.fmt ? c.fmt(v) : Math.round(v).toLocaleString();
+  });
+}
+(function loop() { updateCounters(); requestAnimationFrame(loop); })();
+
+/* ---------- Controls ---------- */
+const params = new URLSearchParams(location.search);
+function replay() { anims.forEach(a => { a.currentTime = 0; a.play(); }); }
+stage.addEventListener('click', replay);
+addEventListener('keydown', e => { if (e.key.toLowerCase() === 'r') replay(); });
+if (params.has('loop')) master.onfinish = () => setTimeout(replay, 400);
+if (params.has('t')) {
+  const t = Math.min(D, parseFloat(params.get('t'))) * 1000;
+  anims.forEach(a => { a.pause(); a.currentTime = t; });
+  updateCounters();
+}
+</script>
+</body>
+</html>

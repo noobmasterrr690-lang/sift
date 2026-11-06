@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 92" width="560" height="184" font-family="'Segoe UI Variable Display','Segoe UI',Inter,sans-serif">
+<rect x="1" y="1" width="278" height="90" rx="20" fill="#18181d" stroke="rgba(255,255,255,.16)" stroke-width="2"/>
+<rect x="14" y="14" width="64" height="64" rx="16" fill="#34d399"/>
+<text x="46" y="52" text-anchor="middle" font-size="17" font-weight="800" fill="#0b0c14">MSI</text>
+<text x="96" y="56" font-size="28" font-weight="600" fill="#f2f2f4">Driver.msi</text>
+</svg>

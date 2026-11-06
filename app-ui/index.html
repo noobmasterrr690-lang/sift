@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark" />
+    <title>Sift</title>
+    <link rel="icon" type="image/svg+xml" href="sift-logo.svg" />
+    <link rel="alternate icon" type="image/png" href="favicon.png" />
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      /* Critical pre-render styles for zero-flicker launch */
+      html, body {
+        margin: 0;
+        height: 100%;
+        background: #090a12;
+        color: #f2f2f4;
+        font-family: "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
+        overflow: hidden;
+      }
+      .splash-screen {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: radial-gradient(120% 90% at 50% 20%, #1a1e36 0%, #101222 45%, #080910 100%);
+        overflow: hidden;
+        user-select: none;
+        opacity: 1;
+        transform: scale(1);
+        transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.5s;
+      }
+      .splash-screen.splash-hidden {
+        opacity: 0;
+        transform: scale(1.03);
+        pointer-events: none;
+        visibility: hidden;
+      }
+      .splash-backdrop {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        overflow: hidden;
+      }
+      .splash-aura {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(120px);
+        will-change: transform;
+      }
+      .splash-aura-1 {
+        width: 480px; height: 480px;
+        background: #22d3ee;
+        top: -120px; left: -100px;
+        opacity: 0.22;
+        animation: splashFloat1 8s ease-in-out infinite alternate;
+      }
+      .splash-aura-2 {
+        width: 520px; height: 520px;
+        background: #6366f1;
+        bottom: -150px; right: -100px;
+        opacity: 0.25;
+        animation: splashFloat2 10s ease-in-out infinite alternate;
+      }
+      .splash-aura-3 {
+        width: 380px; height: 380px;
+        background: #fb7185;
+        top: 40%; left: 60%;
+        opacity: 0.14;
+        animation: splashFloat3 9s ease-in-out infinite alternate;
+      }
+      @keyframes splashFloat1 { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(60px, 40px) scale(1.1); } }
+      @keyframes splashFloat2 { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(-50px, -30px) scale(1.08); } }
+      @keyframes splashFloat3 { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(-40px, 40px) scale(1.15); } }
+      .splash-content {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      .splash-logo-wrapper {
+        position: relative;
+        width: 96px; height: 96px;
+        display: grid;
+        place-items: center;
+        margin-bottom: 20px;
+      }
+      .splash-logo-glow {
+        position: absolute;
+        inset: -20px;
+        background: radial-gradient(circle, rgba(99, 102, 241, 0.45) 0%, rgba(34, 211, 238, 0.2) 40%, transparent 70%);
+        border-radius: 50%;
+        filter: blur(16px);
+        animation: splashGlowPulse 2.8s ease-in-out infinite alternate;
+      }
+      @keyframes splashGlowPulse { 0% { opacity: 0.45; transform: scale(0.92); } 100% { opacity: 0.85; transform: scale(1.12); } }
+      .splash-logo {
+        width: 84px; height: 84px;
+        border-radius: 20px;
+        filter: drop-shadow(0 10px 28px rgba(79, 70, 229, 0.5));
+        animation: splashLogoEntrance 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) backwards, splashLogoFloat 4s ease-in-out infinite alternate;
+      }
+      @keyframes splashLogoEntrance { 0% { opacity: 0; transform: scale(0.7) translateY(12px); } 100% { opacity: 1; transform: scale(1) translateY(0); } }
+      @keyframes splashLogoFloat { 0% { transform: translateY(0); } 100% { transform: translateY(-4px); } }
+      .splash-brand {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+      }
+      .splash-title {
+        font-size: 38px;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        color: #ffffff;
+        line-height: 1;
+        margin: 0;
+        text-shadow: 0 2px 14px rgba(255, 255, 255, 0.15);
+      }
+      .splash-tagline {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.26em;
+        text-transform: uppercase;
+        background: linear-gradient(90deg, #38bdf8 0%, #818cf8 50%, #ec4899 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        padding-left: 0.26em;
+      }
+      .splash-progress-track {
+        width: 240px; height: 4px;
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 999px;
+        overflow: hidden;
+        margin-top: 26px;
+        position: relative;
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.4);
+      }
+      .splash-progress-bar {
+        position: absolute;
+        top: 0; left: 0;
+        height: 100%;
+        border-radius: 999px;
+        background: linear-gradient(90deg, #22d3ee, #6366f1, #a855f7, #fb7185);
+        box-shadow: 0 0 12px rgba(99, 102, 241, 0.6);
+        animation: splashProgressBeam 1.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+      }
+      @keyframes splashProgressBeam { 0% { left: -35%; width: 25%; } 50% { left: 25%; width: 50%; } 100% { left: 100%; width: 25%; } }
+      .splash-status {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 14px;
+        font-size: 12px;
+        color: #a8a8b3;
+        font-weight: 500;
+        letter-spacing: 0.01em;
+      }
+      .splash-dot {
+        width: 6px; height: 6px;
+        border-radius: 50%;
+        background: #34d399;
+        box-shadow: 0 0 8px rgba(52, 211, 153, 0.8);
+        animation: splashDotPulse 1.4s ease-in-out infinite;
+      }
+      @keyframes splashDotPulse { 0%, 100% { transform: scale(0.9); opacity: 0.6; } 50% { transform: scale(1.25); opacity: 1; } }
+      .splash-badge {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 36px;
+        font-size: 11px;
+        color: #75757f;
+        letter-spacing: 0.04em;
+        font-weight: 500;
+      }
+      .splash-badge-sep {
+        opacity: 0.35;
+        color: #818cf8;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .splash-aura-1, .splash-aura-2, .splash-aura-3, .splash-logo-glow, .splash-logo, .splash-dot { animation: none; }
+        .splash-progress-bar { width: 60%; animation-duration: 4s; }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="announcer" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
+
+    <!-- Smooth sleek app launch loading screen -->
+    <div id="splash-screen" class="splash-screen" aria-label="Loading Sift" role="status">
+      <div class="splash-backdrop" aria-hidden="true">
+        <div class="splash-aura splash-aura-1"></div>
+        <div class="splash-aura splash-aura-2"></div>
+        <div class="splash-aura splash-aura-3"></div>
+      </div>
+      <div class="splash-content">
+        <div class="splash-logo-wrapper">
+          <div class="splash-logo-glow" aria-hidden="true"></div>
+          <img class="splash-logo" src="sift-logo.svg" alt="Sift" width="84" height="84" />
+        </div>
+        <div class="splash-brand">
+          <h1 class="splash-title">Sift</h1>
+          <span class="splash-tagline">PRECISION FILE ORGANIZER</span>
+        </div>
+        <div class="splash-progress-track" aria-hidden="true">
+          <div class="splash-progress-bar" id="splash-bar"></div>
+        </div>
+        <div class="splash-status">
+          <span class="splash-dot" aria-hidden="true"></span>
+          <span id="splash-status-text">Scanning PC folders…</span>
+        </div>
+        <div class="splash-badge" aria-hidden="true">
+          <span>⚡ 100% Local</span>
+          <span class="splash-badge-sep">•</span>
+          <span>Private</span>
+          <span class="splash-badge-sep">•</span>
+          <span>Windows Native</span>
+        </div>
+      </div>
+    </div>
+
+    <div id="app"></div>
+    <dialog id="confirm-dialog" aria-labelledby="confirm-title">
+      <h2 id="confirm-title"></h2>
+      <p id="confirm-body"></p>
+      <div class="dialog-actions">
+        <button type="button" class="btn" value="cancel" id="confirm-cancel">Cancel</button>
+        <button type="button" class="btn btn-primary" value="ok" id="confirm-ok">OK</button>
+      </div>
+    </dialog>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

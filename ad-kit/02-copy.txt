@@ -1,0 +1,91 @@
+==========================================================
+ SIFT — 10s AD COPY DECK  (all words for the video)
+==========================================================
+
+---------- PRIMARY (used in preview.html) ----------
+
+SCENE 1  (0.0–2.0s)   Your Downloads folder is a mess.
+SCENE 2  (2.0–4.0s)   Meet Sift.
+SCENE 3  (4.0–6.5s)   Every file, sorted in one click.
+SCENE 4  (6.5–8.5s)   Safe. Undoable. 100% local.
+SCENE 5  (8.5–10s)    Sift
+                      PRECISION FILE ORGANIZER
+                      [ Download for Windows ]
+
+---------- VOICE-OVER (optional, ~24 words) ----------
+
+"Messy Downloads? Meet Sift. It sorts every file, clears the junk,
+ and undoes anything in one click. Sift. Tidy your PC."
+
+---------- ON-SCREEN LABELS ----------
+
+Folder cards (Scene 3):
+  Images        Images/2026/11      412 files
+  Documents     Documents/PDF       268 files
+  Design        Design/PSD           97 files
+  Videos        Videos/2026          54 files
+  Archives      Archives            131 files
+  Installers    Installers           38 files
+
+Feature cards (Scene 4):
+  4.2 GB freed            Junk, duplicates & old installers
+  1-Click Undo            Every move is reversible
+  Stays local             No cloud. No uploads.
+
+Messy file names (Scene 1 chips):
+  IMG_4821.jpg · Screenshot (14).png · vacation_02.heic
+  invoice_final(3).pdf · notes.docx · budget_2026.xlsx
+  poster_FINAL_v7.psd · logo.ai · mockup.fig
+  clip_0012.mp4 · screen-rec.mov
+  project.zip · assets(1).rar · backup.7z
+  setup_v2.3.exe · Driver.msi · ubuntu.iso · Zoom(2).exe
+
+---------- ALTERNATE HEADLINES (A/B options) ----------
+
+Hook:
+  - Drowning in downloads?
+  - 1,284 loose files. Zero folders.
+  - Your desktop called. It wants help.
+  - Can't find that file again?
+
+Reveal:
+  - Meet Sift.
+  - Sift it.
+  - Let Sift handle it.
+
+Benefit:
+  - From chaos to folders in one click.
+  - Sorted by type. Automatically.
+  - Tidy Up. Clean Up. Undo anytime.
+  - Free up gigabytes of junk.
+
+Trust:
+  - Nothing deleted forever. Everything undoable.
+  - Runs on your PC. Never the cloud.
+  - Never overwrites. Always reversible.
+
+End-card taglines:
+  - Sift. Precision File Organizer.
+  - Sift. Tidy your PC.
+  - Sift. Clutter in. Calm out.
+  - Sift. Your files, finally sorted.
+
+CTA:
+  - Download for Windows
+  - Get Sift free          (only if it's actually free)
+  - Try Sift today
+
+---------- KEY FEATURES (source of truth, from the app) ----------
+
+1. TIDY UP: Sorts loose files into folders by type, right where they
+   already are: Images (by year/month), Documents, Design files
+   (PSD, AI, FIG...), Videos, Audio, Archives, Installers, Fonts,
+   3D Models, E-books, Code & Data.
+2. CLEAN UP: Finds unfinished downloads, exact duplicates, old
+   installers, old screenshots, and large files you haven't touched.
+   Sends them to the Recycle Bin only, so nothing is ever permanently
+   deleted.
+3. HISTORY & 1-CLICK UNDO: Every sort is logged, and one click puts
+   every file back exactly where it was.
+4. SAFETY: Never overwrites anything. Name clashes get a (1), (2) suffix.
+5. NATIVE & LOCAL: A Windows desktop app. Your files never leave your PC.

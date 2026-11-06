@@ -1,0 +1,85 @@
+/* =========================================================================
+   SIFT — Ad / Video Brand Tokens
+   Pulled directly from the app (app-ui/styles.css, src/index.css) and the
+   logo (app-ui/sift-logo.svg) so the ad matches the product 1:1.
+   ========================================================================= */
+
+:root {
+  /* ---------- Backgrounds (deep night-indigo) ---------- */
+  --sift-bg-deep:    #090a12; /* outer edge of logo tile / video base      */
+  --sift-bg-mid:     #111322; /* mid background                            */
+  --sift-bg-glow:    #1e2238; /* top-center glow                           */
+  --sift-app-bg:     #0f0f12; /* app window background                     */
+  --sift-surface:    #18181d; /* cards / panels                            */
+  --sift-surface-2:  #202027; /* raised elements                           */
+  --sift-hairline:   rgba(255, 255, 255, 0.08);
+  --sift-hairline-strong: rgba(255, 255, 255, 0.16);
+
+  /* ---------- Brand spectrum (the "S" mark) ---------- */
+  --sift-cyan:    #22d3ee; /* Tier 1 – incoming files      */
+  --sift-blue:    #3b82f6;
+  --sift-indigo:  #4f46e5; /* Tier 2 – the sifting channel */
+  --sift-violet:  #7c3aed;
+  --sift-purple:  #a855f7;
+  --sift-rose:    #fb7185; /* Tier 3 – organized output    */
+
+  /* ---------- UI accents ---------- */
+  --sift-accent:       #6d6af5; /* primary buttons            */
+  --sift-accent-light: #818cf8; /* sub-labels, focus, glow    */
+  --sift-lilac:        #c9c8ff;
+  --sift-green:        #34d399; /* "space freed", success     */
+  --sift-red:          #e5484d; /* Clean Up / danger button   */
+
+  /* ---------- Text ---------- */
+  --sift-text:   #f2f2f4;
+  --sift-text-2: #a8a8b3;
+  --sift-text-3: #75757f;
+
+  /* ---------- Gradients ---------- */
+  --sift-grad-brand:   linear-gradient(90deg, #22d3ee 0%, #3b82f6 22%, #4f46e5 42%, #7c3aed 60%, #a855f7 78%, #fb7185 100%);
+  --sift-grad-tagline: linear-gradient(90deg, #38bdf8 0%, #818cf8 50%, #ec4899 100%);
+  --sift-grad-tier1:   linear-gradient(135deg, #22d3ee, #3b82f6);
+  --sift-grad-tier2:   linear-gradient(135deg, #4f46e5, #7c3aed 60%, #a855f7);
+  --sift-grad-tier3:   linear-gradient(135deg, #a855f7, #fb7185);
+  --sift-grad-bg:      radial-gradient(120% 90% at 50% 20%, #1e2238 0%, #111322 45%, #090a12 100%);
+
+  /* ---------- Category colours (used for file chips + folders) ---------- */
+  --cat-images:     #22d3ee;
+  --cat-documents:  #3b82f6;
+  --cat-design:     #a855f7;
+  --cat-videos:     #fb7185;
+  --cat-archives:   #818cf8;
+  --cat-installers: #34d399;
+
+  /* ---------- Typography ---------- */
+  --sift-font-display: "Segoe UI Variable Display", "Segoe UI", "Inter", system-ui, sans-serif;
+  --sift-font-text:    "Segoe UI Variable Text", "Segoe UI", "Inter", system-ui, sans-serif;
+  --sift-font-mono:    "JetBrains Mono", "Cascadia Code", Consolas, monospace;
+
+  /* Headline: 800 weight, tight tracking.  Tagline: 700, uppercase, wide. */
+  --sift-headline-weight: 800;
+  --sift-headline-tracking: -0.03em;
+  --sift-tagline-weight: 700;
+  --sift-tagline-tracking: 0.28em;
+
+  /* ---------- Shape & depth ---------- */
+  --sift-radius-card: 28px;
+  --sift-radius-pill: 999px;
+  --sift-radius-logo: 24%;  /* squircle tile = rx 112 / 464 */
+  --sift-shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
+  --sift-glow:   0 0 80px rgba(99, 102, 241, 0.45);
+
+  /* ---------- Motion ---------- */
+  --sift-ease-out:  cubic-bezier(0.2, 0.8, 0.2, 1);
+  --sift-ease-snap: cubic-bezier(0.34, 1.56, 0.64, 1); /* slight overshoot */
+  --sift-ease-in:   cubic-bezier(0.6, 0, 0.8, 0.2);
+}
+
+/* Gradient-text helper */
+.sift-grad-text {
+  background: var(--sift-grad-brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+

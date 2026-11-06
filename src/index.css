@@ -1,0 +1,152 @@
+@import "tailwindcss";
+
+:root {
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --surface-mica: rgba(9, 9, 11, 0.9);
+  --surface-card: rgba(24, 24, 27, 0.65);
+  --border-hairline: rgba(255, 255, 255, 0.1);
+  --focus-ring-color: #818cf8;
+  color-scheme: dark;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: #09090b;
+  color: #f4f4f5;
+  margin: 0;
+}
+
+code,
+pre,
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+/* Accessible visually-hidden utility (opts out on :focus-within / :active for skip links) */
+.visually-hidden:where(:not(:focus-within, :active)) {
+  position: absolute !important;
+  clip-path: inset(50%) !important;
+  overflow: hidden !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  white-space: nowrap !important;
+}
+
+/* Explicit high-contrast focus ring with outline-offset (Forced Colors Mode safe) */
+:where(a:any-link, button, input, select, [tabindex="0"]):focus-visible {
+  outline: 2px solid var(--focus-ring-color);
+  outline-offset: 2px;
+}
+
+/* Responsive Container-Query Data Table for Organize Source -> Destination Diffs */
+.sift-table-wrapper {
+  overflow: auto;
+  max-inline-size: 100%;
+  max-block-size: min(440px, 65vh);
+  container-type: inline-size;
+}
+
+.sift-diff-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  --label-2: "Source Path";
+  --label-3: "Proposed Destination";
+  --label-4: "Collision / BLAKE3";
+  --label-5: "Size";
+}
+
+.sift-diff-table thead {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 2;
+  background-color: #121216;
+}
+
+.sift-diff-table tbody th {
+  position: sticky;
+  inset-inline-start: 0;
+  z-index: 1;
+  background-color: #141418;
+}
+
+.sift-diff-table tbody tr:not(:last-child) th,
+.sift-diff-table tbody tr:not(:last-child) td {
+  border-block-end: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+@container (width < 600px) {
+  .sift-diff-table,
+  .sift-diff-table thead,
+  .sift-diff-table tbody,
+  .sift-diff-table tr,
+  .sift-diff-table th,
+  .sift-diff-table td {
+    display: block;
+  }
+
+  .sift-diff-table thead {
+    display: none;
+  }
+
+  .sift-diff-table tbody tr {
+    margin-block-end: 0.75rem;
+    border: 1px solid var(--border-hairline);
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+
+  .sift-diff-table tbody th {
+    position: sticky;
+    inset-block-start: 0;
+    z-index: 2;
+    background-color: #18181b;
+  }
+
+  .sift-diff-table td:nth-child(2)::before {
+    content: var(--label-2) ": ";
+    font-weight: 600;
+    color: #a1a1aa;
+  }
+
+  .sift-diff-table td:nth-child(3)::before {
+    content: var(--label-3) ": ";
+    font-weight: 600;
+    color: #a1a1aa;
+  }
+
+  .sift-diff-table td:nth-child(4)::before {
+    content: var(--label-4) ": ";
+    font-weight: 600;
+    color: #a1a1aa;
+  }
+
+  .sift-diff-table td:nth-child(5)::before {
+    content: var(--label-5) ": ";
+    font-weight: 600;
+    color: #a1a1aa;
+  }
+}
+
+/* Custom sleek dark scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.14);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
